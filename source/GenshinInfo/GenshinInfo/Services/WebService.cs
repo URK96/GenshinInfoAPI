@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 
 using System;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace GenshinInfo.Services
@@ -65,7 +66,7 @@ namespace GenshinInfo.Services
             return await PostRequestAsync(client, $"{Urls.RecordUrl}{endPoint}", content);
         }
 
-        internal async Task<JObject> RequestRealTimeNoteAsync(string uid, string ltuid, string ltoken)
+        internal async Task<JObject> GetRequestRealTimeNoteAsync(string uid, string ltuid, string ltoken)
         {
             try
             {
@@ -83,7 +84,7 @@ namespace GenshinInfo.Services
             }
         }
 
-        internal async Task<JObject> RequestUserAsync(string uid, string ltuid, string ltoken)
+        internal async Task<JObject> GetRequestUserAsync(string uid, string ltuid, string ltoken)
         {
             try
             {
@@ -123,6 +124,27 @@ namespace GenshinInfo.Services
             client.DefaultRequestHeaders.Add("x-rpc-app_version", "1.5.0");
             client.DefaultRequestHeaders.Add("x-rpc-client_type", "4");
             client.DefaultRequestHeaders.Add("DS", Utils.GenerateDS());
+        }
+
+        internal async Task<JObject> GetRequestGachaInfoAsync(HttpClient client, string endPoint, string queryStr)
+        {
+            return await GetRequestAsync(client, $"{Urls.GachaInfoUrl}{endPoint}{queryStr}");
+        }
+
+        internal async Task<JObject> GetRequestGachaLogAsync(string gachaType, string endId, string langShortCode, string authKey)
+        {
+            using HttpClient client = new();
+
+            StringBuilder querySb = new();
+
+            querySb.Append($"?gacha_type={gachaType}");
+            querySb.Append("&size=20");
+            querySb.Append($"&end_id={endId}");
+            querySb.Append("&authkey_ver=1");
+            querySb.Append($"&lang={langShortCode}");
+            querySb.Append($"&authkey={authKey}");
+
+            return await GetRequestGachaInfoAsync(client, "getGachaLog", querySb.ToString());
         }
     }
 }

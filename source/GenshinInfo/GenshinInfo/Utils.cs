@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace GenshinInfo
 {
@@ -37,6 +38,23 @@ namespace GenshinInfo
             }
 
             return $"{epoch},{R},{sb}";
+        }
+
+        public static string ExtractAuthkey(string url)
+        {
+            string authKey = string.Empty;
+
+            try
+            {
+                Regex regex = new("https://.+?authkey=([^&#]+)", RegexOptions.Multiline);
+
+                Match match = regex.Match(url);
+
+                authKey = match.Groups[1].Value;
+            }
+            catch (Exception) { }
+
+            return authKey;
         }
     }
 }

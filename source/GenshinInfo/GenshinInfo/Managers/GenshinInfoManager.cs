@@ -26,14 +26,14 @@ namespace GenshinInfo.Managers
 
         public async Task<bool> CheckLogin()
         {
-            var data = await WebService.Instance.RequestUserAsync(uid, ltuid, ltoken);
+            var data = await WebService.Instance.GetRequestUserAsync(uid, ltuid, ltoken);
 
             return data is not null;
         }
 
         public async Task<Dictionary<string, string>> GetRealTimeNotes()
         {
-            JObject dataObj = await WebService.Instance.RequestRealTimeNoteAsync(uid, ltuid, ltoken);
+            JObject dataObj = await WebService.Instance.GetRequestRealTimeNoteAsync(uid, ltuid, ltoken);
 
             Dictionary<string, string> dic = null;
 
@@ -63,7 +63,7 @@ namespace GenshinInfo.Managers
             return dic;
         }
 
-        public async Task<bool> SetDailyNoteSwitch(bool isEnable)
+        public async Task<bool> SetRealTimeNoteSetting(bool isEnable)
         {
             string switchValue = isEnable.ToString().ToLower();
             string str = $"{{\"game_id\":2,\"is_public\":{switchValue},\"switch_id\":3}}";
