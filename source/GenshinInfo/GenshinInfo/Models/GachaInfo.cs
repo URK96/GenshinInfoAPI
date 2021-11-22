@@ -6,18 +6,20 @@ namespace GenshinInfo.Models
 {
     public class GachaInfo
     {
-        public string Uid { get; private set; }
-        public string GachaType { get; private set; }
-        public int ItemId { get; private set; }
-        public int Count { get; private set; }
-        public DateTime GachaTime { get; private set; }
-        public string ItemName { get; private set; }
-        public string ItemType { get; private set; }
-        public string Id { get; private set; }
-        public string LangCode { get; private set; }
-        public int ItemRank { get; private set; }
+        public string Uid { get; set; }
+        public string GachaType { get; set; }
+        public int ItemId { get; set; }
+        public int Count { get; set; }
+        public DateTime GachaTime { get; set; }
+        public string ItemName { get; set; }
+        public string ItemType { get; set; }
+        public string Id { get; set; }
+        public string LangCode { get; set; }
+        public int ItemRank { get; set; }
 
         public string GachaShortDateTime => GachaTime.ToString("yyyy,MM,dd,HH,mm,ss");
+
+        public GachaInfo() { }
 
         public GachaInfo(JObject obj)
         {
