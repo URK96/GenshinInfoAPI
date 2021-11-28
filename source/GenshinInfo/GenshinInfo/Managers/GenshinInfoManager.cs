@@ -65,6 +65,11 @@ namespace GenshinInfo.Managers
 
         public async Task<bool> SetRealTimeNoteSetting(bool isEnable)
         {
+            return await SetRealTimeNoteSetting(isEnable, ltuid, ltoken);
+        }
+
+        public static async Task<bool> SetRealTimeNoteSetting(bool isEnable, string ltuid, string ltoken)
+        {
             string switchValue = isEnable.ToString().ToLower();
             string str = $"{{\"game_id\":2,\"is_public\":{switchValue},\"switch_id\":3}}";
 

@@ -15,17 +15,83 @@ namespace GenshinInfo.Services
 
         private static readonly Lazy<WebService> instance = new(() => { return new WebService(); });
 
-        private async Task<JObject> GetRequestAsync(HttpClient client, string url)
+        public async Task<(bool, string)> RawGetRequestAsync(HttpClient client, string url)
         {
+            bool result;
+            string str;
+            
             try
             {
-                string str = await client.GetStringAsync(url);
+                str = await client.GetStringAsync(url);
 
                 JObject rootObj = JObject.Parse(str);
 
-                int retcode = rootObj["retcode"].Value<int>();
+                int retCode = rootObj["retcode"].Value<int>();
 
-                return (retcode is 0) ? rootObj["data"].Value<JObject>() : null;
+                if (retCode is 0)
+                {
+                    result = true;
+                }
+                else
+                {
+                    result = false;
+                    str = rootObj["message"].Value<string>();
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                str = ex.ToString();
+            }
+
+            return (result, str);
+        }
+
+        public async Task<(bool, string)> RawPostRequestAsync(HttpClient client, string url, StringContent content)
+        {
+            bool result;
+            string str;
+
+            try
+            {
+                str = await (await client.PostAsync(url, content)).Content.ReadAsStringAsync();
+
+                JObject rootObj = JObject.Parse(str);
+
+                int retCode = rootObj["retcode"].Value<int>();
+
+                if (retCode is 0)
+                {
+                    result = true;
+                }
+                else
+                {
+                    result = false;
+                    str = rootObj["message"].Value<string>();
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                str = ex.ToString();
+            }
+
+            return (result, str);
+        }
+
+        public async Task<JObject> GetRequestAsync(HttpClient client, string url)
+        {
+            string str;
+
+            try
+            {
+                str = await client.GetStringAsync(url);
+
+                JObject rootObj = JObject.Parse(str);
+
+                int retCode = rootObj["retcode"].Value<int>();
+
+                return (retCode is 0) ? rootObj["data"].Value<JObject>() : null;
             }
             catch (Exception)
             {
@@ -33,7 +99,7 @@ namespace GenshinInfo.Services
             }
         }
 
-        private async Task<bool> PostRequestAsync(HttpClient client, string url, StringContent content)
+        public async Task<bool> PostRequestAsync(HttpClient client, string url, StringContent content)
         {
             try
             {
@@ -58,12 +124,12 @@ namespace GenshinInfo.Services
 
         internal async Task<JObject> GetRequestGameRecordAsync(HttpClient client, string endPoint, string queryStr)
         {
-            return await GetRequestAsync(client, $"{Urls.RecordUrl}{endPoint}{queryStr}");
+            return await GetRequestAsync(client, $"{Urls.RecordBbsUrl}{endPoint}{queryStr}");
         }
 
         internal async Task<bool> PostRequestGameRecordAsync(HttpClient client, string endPoint, StringContent content)
         {
-            return await PostRequestAsync(client, $"{Urls.RecordUrl}{endPoint}", content);
+            return await PostRequestAsync(client, $"{Urls.RecordBbsUrl}{endPoint}", content);
         }
 
         internal async Task<JObject> GetRequestRealTimeNoteAsync(string uid, string ltuid, string ltoken)
@@ -118,14 +184,6 @@ namespace GenshinInfo.Services
             }
         }
 
-        private void AddDefaultHeaders(HttpClient client, string ltuid, string ltoken)
-        {
-            client.DefaultRequestHeaders.Add("Cookie", $"ltoken={ltoken}; ltuid={ltuid}");
-            client.DefaultRequestHeaders.Add("x-rpc-app_version", "1.5.0");
-            client.DefaultRequestHeaders.Add("x-rpc-client_type", "4");
-            client.DefaultRequestHeaders.Add("DS", Utils.GenerateDS());
-        }
-
         internal async Task<JObject> GetRequestGachaInfoAsync(HttpClient client, string endPoint, string queryStr)
         {
             return await GetRequestAsync(client, $"{Urls.GachaInfoUrl}{endPoint}{queryStr}");
@@ -145,6 +203,14 @@ namespace GenshinInfo.Services
             querySb.Append($"&authkey={authKey}");
 
             return await GetRequestGachaInfoAsync(client, "getGachaLog", querySb.ToString());
+        }
+
+        internal void AddDefaultHeaders(HttpClient client, string ltuid, string ltoken)
+        {
+            client.DefaultRequestHeaders.Add("Cookie", $"ltoken={ltoken}; ltuid={ltuid}");
+            client.DefaultRequestHeaders.Add("x-rpc-app_version", "1.5.0");
+            client.DefaultRequestHeaders.Add("x-rpc-client_type", "4");
+            client.DefaultRequestHeaders.Add("DS", Utils.GenerateDS());
         }
     }
 }
