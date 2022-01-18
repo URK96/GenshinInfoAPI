@@ -4,6 +4,8 @@ using Newtonsoft.Json.Linq;
 
 using System;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace GenshinInfo.Services
@@ -17,26 +19,26 @@ namespace GenshinInfo.Services
             WebService.Instance.AddDefaultHeaders(client, ltuid, ltoken);
 
             string queryStr = $"?server={Utils.AnalyzeServer(uid)}&role_id={uid}";
-            string requestUrl = $"{Urls.RecordUrl}genshin/api/dailyNote{queryStr}";
+            string requestUrl = $"{Urls.RecordBbsUrl}genshin/api/dailyNote{queryStr}";
 
             return await WebService.Instance.RawGetRequestAsync(client, requestUrl);
         }
 
         public static async Task<(bool, string)> TestRealTimeNoteSettingAPI(string ltuid, string ltoken)
         {
-            bool? nowStatus = await GetRealTimeNoteSettingValue(ltuid, ltoken);
+            (bool?, string) nowStatus = await GetRealTimeNoteSettingValue(ltuid, ltoken);
 
-            if (nowStatus is null)
+            if (nowStatus.Item1 is null)
             {
-                return (false, "HoYoLAB Privacy Setting response not working");
+                return (false, nowStatus.Item2);
             }
 
             using HttpClient client = new();
 
             WebService.Instance.AddDefaultHeaders(client, ltuid, ltoken);
 
-            string str = $"{{\"game_id\":2,\"is_public\":{(!nowStatus.Value).ToString().ToLower()},\"switch_id\":3}}";
-            string str2 = $"{{\"game_id\":2,\"is_public\":{nowStatus.Value.ToString().ToLower()},\"switch_id\":3}}";
+            string str = $"{{\"game_id\":2,\"is_public\":{(!nowStatus.Item1.Value).ToString().ToLower()},\"switch_id\":3}}";
+            string str2 = $"{{\"game_id\":2,\"is_public\":{nowStatus.Item1.Value.ToString().ToLower()},\"switch_id\":3}}";
 
             using StringContent content = new(str);
             using StringContent content2 = new(str2);
@@ -60,7 +62,7 @@ namespace GenshinInfo.Services
             return (first.Item1 && second.Item1, $"{first.Item2}\n{second.Item2}");
         }
 
-        private static async Task<bool?> GetRealTimeNoteSettingValue(string ltuid, string ltoken)
+        private static async Task<(bool?, string)> GetRealTimeNoteSettingValue(string ltuid, string ltoken)
         {
             using HttpClient client = new();
 
@@ -69,25 +71,33 @@ namespace GenshinInfo.Services
             string queryStr = $"?uid={ltuid}";
             string requestUrl = $"{Urls.RecordBbsUrl}card/wapi/getGameRecordCard{queryStr}";
 
-            JObject dataObj;
-
             try
             {
-                dataObj = await WebService.Instance.GetRequestAsync(client, requestUrl);
+                JObject dataObj = await WebService.Instance.GetRequestAsync(client, requestUrl);
 
                 if (dataObj is null)
                 {
                     throw new Exception("Response data is null");
                 }
+
+                JToken token = dataObj["list"][0]["data_switches"][2];
+
+                return (token["is_public"].Value<bool>(), "HoYoLAB Privacy Setting response not working");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return null;
+                return (null, ex.Message);
             }
+        }
 
-            JToken token = dataObj["list"][0]["data_switches"][2];
+        public static async Task<(bool, string)> TestWishLogAPI(string authKey)
+        {
+            using HttpClient client = new();
 
-            return token["is_public"].Value<bool>();
+            string queryStr = $"?authkey_ver=1&lang=ko&authkey={authKey}";
+            string requestUrl = $"{Urls.GachaInfoUrl}getConfigList{queryStr}";
+
+            return await WebService.Instance.RawGetRequestAsync(client, requestUrl);
         }
     }
 }

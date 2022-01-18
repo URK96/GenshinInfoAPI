@@ -197,6 +197,7 @@ namespace GenshinInfo.Services
 
             querySb.Append($"?gacha_type={gachaType}");
             querySb.Append("&size=20");
+            querySb.Append("&auth_appid=webview_gacha");
             querySb.Append($"&end_id={endId}");
             querySb.Append("&authkey_ver=1");
             querySb.Append($"&lang={langShortCode}");

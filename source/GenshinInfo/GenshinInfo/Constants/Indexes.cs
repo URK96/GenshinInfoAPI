@@ -21,6 +21,11 @@
             // Expedition Note
             public const string CurrentExpeditionNum = "current_expedition_num";
             public const string MaxExpeditionNum = "max_expedition_num";
+
+            // Realm Home Coin Note
+            public const string CurrentRealmHomeCoin = "current_home_coin";
+            public const string MaxRealmHomeCoin = "max_home_coin";
+            public const string RealmHomeCoinRecoveryTime = "home_coin_recovery_time";
         }
     }
 }

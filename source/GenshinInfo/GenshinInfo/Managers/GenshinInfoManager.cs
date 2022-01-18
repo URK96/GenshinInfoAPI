@@ -49,10 +49,18 @@ namespace GenshinInfo.Managers
 
                     dic.Add(RTNIndexes.FinishedTaskNum, dataObj[RTNIndexes.FinishedTaskNum].Value<string>());
                     dic.Add(RTNIndexes.TotalTaskNum, dataObj[RTNIndexes.TotalTaskNum].Value<string>());
-                    dic.Add(RTNIndexes.IsExtraTaskRewardReceived, dataObj[RTNIndexes.IsExtraTaskRewardReceived].Value<string>());
+                    dic.Add(RTNIndexes.IsExtraTaskRewardReceived, 
+                            dataObj[RTNIndexes.IsExtraTaskRewardReceived].Value<string>());
 
-                    dic.Add(RTNIndexes.RemainResinDiscountNum, dataObj[RTNIndexes.RemainResinDiscountNum].Value<string>());
-                    dic.Add(RTNIndexes.ResinDiscountNumLimit, dataObj[RTNIndexes.ResinDiscountNumLimit].Value<string>());
+                    dic.Add(RTNIndexes.RemainResinDiscountNum, 
+                            dataObj[RTNIndexes.RemainResinDiscountNum].Value<string>());
+                    dic.Add(RTNIndexes.ResinDiscountNumLimit, 
+                            dataObj[RTNIndexes.ResinDiscountNumLimit].Value<string>());
+
+                    dic.Add(RTNIndexes.CurrentRealmHomeCoin, dataObj[RTNIndexes.CurrentRealmHomeCoin].Value<string>());
+                    dic.Add(RTNIndexes.MaxRealmHomeCoin, dataObj[RTNIndexes.MaxRealmHomeCoin].Value<string>());
+                    dic.Add(RTNIndexes.RealmHomeCoinRecoveryTime, 
+                            dataObj[RTNIndexes.RealmHomeCoinRecoveryTime].Value<string>());
                 }
                 catch (Exception)
                 {
