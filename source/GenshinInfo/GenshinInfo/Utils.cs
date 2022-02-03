@@ -56,5 +56,22 @@ namespace GenshinInfo
 
             return authKey;
         }
+
+        public static TimeSpan ConvertRemainTime(string remainTimeStr)
+        {
+            int remainTime = int.Parse(remainTimeStr);
+
+            if (remainTime < 0)
+            {
+                remainTime = 0;
+            }
+            
+            return TimeSpan.FromSeconds(remainTime);
+        }
+
+        public static bool CheckResponseValid(bool result, string responseStr)
+        {
+            return result && !string.IsNullOrWhiteSpace(responseStr);
+        }
     }
 }

@@ -1,11 +1,9 @@
 ﻿using GenshinInfo.Constants;
+using GenshinInfo.Enums;
 using GenshinInfo.Models;
 using GenshinInfo.Services;
 
-using Newtonsoft.Json.Linq;
-
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,14 +12,6 @@ namespace GenshinInfo.Managers
 {
     public class GachaInfoManager
     {
-        public enum GachaTypeNum
-        {
-            Novice = 100,
-            Permanent = 200,
-            CharacterEvent = 301,
-            WeaponEvent = 302
-        }
-
         private string authKey;
 
         public GachaInfoManager() { }
@@ -36,24 +26,21 @@ namespace GenshinInfo.Managers
             this.authKey = authKey;
         }
 
-        public async Task<List<GachaInfo>> GetGachaInfos(GachaTypeNum gachaType, string endId = "0", string langShortCode = "en")
+        public async Task<List<GachaDataInfo>> GetGachaInfos(GachaTypeNum gachaType, string endId = "0",
+                                                             string langShortCode = "en")
         {
-            List<GachaInfo> resultList = null;
-            JObject dataObj = await WebService.Instance.GetRequestGachaLogAsync(((int)gachaType).ToString(), endId, langShortCode, authKey);
+            (bool result, string jsonStr) = 
+                await WebService.Instance.GetRequestGachaLogAsync((int)gachaType, endId, langShortCode, authKey);
 
-            if (dataObj is not null)
+            (_, GachaDataInfos gachaDataInfos) =
+                ((ResponseData, GachaDataInfos))ResponseData.CreateData(result, jsonStr, DataType.GachaData);
+
+            if (gachaDataInfos is null)
             {
-                JArray infoList = dataObj["list"].Value<JArray>();
-
-                resultList = new();
-
-                foreach (JObject obj in infoList)
-                {
-                    resultList.Add(new GachaInfo(obj));
-                }
+                return null;
             }
 
-            return resultList;
+            return gachaDataInfos.GachaDatas;
         }
 
         public async Task<string> GetGachaConfigList()

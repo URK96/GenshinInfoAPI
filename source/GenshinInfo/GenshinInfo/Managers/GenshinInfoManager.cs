@@ -1,13 +1,9 @@
-﻿using GenshinInfo.Services;
+﻿using GenshinInfo.Enums;
+using GenshinInfo.Models;
+using GenshinInfo.Services;
 
-using Newtonsoft.Json.Linq;
-
-using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-
-using RTNIndexes = GenshinInfo.Constants.Indexes.RealTimeNote;
 
 namespace GenshinInfo.Managers
 {
@@ -26,49 +22,79 @@ namespace GenshinInfo.Managers
 
         public async Task<bool> CheckLogin()
         {
-            var data = await WebService.Instance.GetRequestUserAsync(uid, ltuid, ltoken);
+            (bool result, string jsonStr) = await WebService.Instance.GetRequestUserAsync(uid, ltuid, ltoken);
+            (ResponseData data, _) = ResponseData.CreateData(result, jsonStr, DataType.None);
 
-            return data is not null;
+            //if (result &&
+            //    !string.IsNullOrWhiteSpace(jsonStr))
+            //{
+            //    data = new(JsonDocument.Parse(jsonStr).RootElement);
+            //}
+
+            return (data is not null) &&
+                data.RetCode is 0;
         }
 
-        public async Task<Dictionary<string, string>> GetRealTimeNotes()
+        public async Task<RTNoteData> GetRealTimeNotes()
         {
-            JObject dataObj = await WebService.Instance.GetRequestRealTimeNoteAsync(uid, ltuid, ltoken);
+            (bool result, string jsonStr) = 
+                await WebService.Instance.GetRequestRealTimeNoteAsync(uid, ltuid, ltoken);
+            (_, var rtNoteData)
+                = ((ResponseData, RTNoteData))ResponseData.CreateData(result, jsonStr, DataType.RTNote);
 
-            Dictionary<string, string> dic = null;
+            return rtNoteData;
 
-            if (dataObj is not null)
-            {
-                dic = new();
+            //if (result &&
+            //    !string.IsNullOrWhiteSpace(jsonStr))
+            //{
+            //    JsonElement rootElement = JsonDocument.Parse(jsonStr).RootElement;
 
-                try
-                {
-                    dic.Add(RTNIndexes.CurrentResin, dataObj[RTNIndexes.CurrentResin].Value<string>());
-                    dic.Add(RTNIndexes.MaxResin, dataObj[RTNIndexes.MaxResin].Value<string>());
-                    dic.Add(RTNIndexes.ResinRecoveryTime, dataObj[RTNIndexes.ResinRecoveryTime].Value<string>());
+            //    //responseData = new(rootElement);
 
-                    dic.Add(RTNIndexes.FinishedTaskNum, dataObj[RTNIndexes.FinishedTaskNum].Value<string>());
-                    dic.Add(RTNIndexes.TotalTaskNum, dataObj[RTNIndexes.TotalTaskNum].Value<string>());
-                    dic.Add(RTNIndexes.IsExtraTaskRewardReceived, 
-                            dataObj[RTNIndexes.IsExtraTaskRewardReceived].Value<string>());
+            //    if (responseData?.RetCode is 0)
+            //    {
+            //        rtNoteData = new(rootElement.GetProperty(Response.Data));
+            //    }
+            //}
 
-                    dic.Add(RTNIndexes.RemainResinDiscountNum, 
-                            dataObj[RTNIndexes.RemainResinDiscountNum].Value<string>());
-                    dic.Add(RTNIndexes.ResinDiscountNumLimit, 
-                            dataObj[RTNIndexes.ResinDiscountNumLimit].Value<string>());
+            //return rtNoteData;
 
-                    dic.Add(RTNIndexes.CurrentRealmHomeCoin, dataObj[RTNIndexes.CurrentRealmHomeCoin].Value<string>());
-                    dic.Add(RTNIndexes.MaxRealmHomeCoin, dataObj[RTNIndexes.MaxRealmHomeCoin].Value<string>());
-                    dic.Add(RTNIndexes.RealmHomeCoinRecoveryTime, 
-                            dataObj[RTNIndexes.RealmHomeCoinRecoveryTime].Value<string>());
-                }
-                catch (Exception)
-                {
-                    dic = null;
-                }
-            }
+            //JObject dataObj = await WebService.Instance.GetRequestRealTimeNoteAsync(uid, ltuid, ltoken);
 
-            return dic;
+            //Dictionary<string, string> dic = null;
+
+            //if (dataObj is not null)
+            //{
+            //    dic = new();
+
+            //    try
+            //    {
+            //        dic.Add(RTNote.CurrentResin, dataObj[RTNote.CurrentResin].Value<string>());
+            //        dic.Add(RTNote.MaxResin, dataObj[RTNote.MaxResin].Value<string>());
+            //        dic.Add(RTNote.ResinRecoveryTime, dataObj[RTNote.ResinRecoveryTime].Value<string>());
+
+            //        dic.Add(RTNote.FinishedTaskNum, dataObj[RTNote.FinishedTaskNum].Value<string>());
+            //        dic.Add(RTNote.TotalTaskNum, dataObj[RTNote.TotalTaskNum].Value<string>());
+            //        dic.Add(RTNote.IsExtraTaskRewardReceived, 
+            //                dataObj[RTNote.IsExtraTaskRewardReceived].Value<string>());
+
+            //        dic.Add(RTNote.RemainResinDiscountNum, 
+            //                dataObj[RTNote.RemainResinDiscountNum].Value<string>());
+            //        dic.Add(RTNote.ResinDiscountNumLimit, 
+            //                dataObj[RTNote.ResinDiscountNumLimit].Value<string>());
+
+            //        dic.Add(RTNote.CurrentRealmHomeCoin, dataObj[RTNote.CurrentRealmHomeCoin].Value<string>());
+            //        dic.Add(RTNote.MaxRealmHomeCoin, dataObj[RTNote.MaxRealmHomeCoin].Value<string>());
+            //        dic.Add(RTNote.RealmHomeCoinRecoveryTime, 
+            //                dataObj[RTNote.RealmHomeCoinRecoveryTime].Value<string>());
+            //    }
+            //    catch (Exception)
+            //    {
+            //        dic = null;
+            //    }
+            //}
+
+            //return dic;
         }
 
         public async Task<bool> SetRealTimeNoteSetting(bool isEnable)
@@ -83,7 +109,9 @@ namespace GenshinInfo.Managers
 
             StringContent content = new(str);
 
-            return await WebService.Instance.RequestGameRecordSettingAsync(ltuid, ltoken, content);
+            (bool result, _) = await WebService.Instance.PostRequestGameRecordSettingAsync(ltuid, ltoken, content);
+
+            return result;
         }
     }
 }

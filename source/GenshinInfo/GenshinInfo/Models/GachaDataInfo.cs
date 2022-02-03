@@ -1,10 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using GenshinInfo.Constants.Indexes;
 
 using System;
+using System.Text.Json;
 
 namespace GenshinInfo.Models
 {
-    public class GachaInfo
+    public class GachaDataInfo
     {
         public string Uid { get; set; }
         public string GachaType { get; set; }
@@ -19,21 +20,20 @@ namespace GenshinInfo.Models
 
         public string GachaShortDateTime => GachaTime.ToString("yyyy,MM,dd,HH,mm,ss");
 
-        public GachaInfo() { }
+        public GachaDataInfo() { }
 
-        public GachaInfo(JObject obj)
+        public GachaDataInfo(JsonElement element)
         {
-            Uid = obj["uid"].Value<string>();
-            GachaType = obj["gacha_type"].Value<string>();
+            Uid = element.GetProperty(GachaData.Uid).GetString();
+            GachaType = element.GetProperty(GachaData.GachaType).GetString();
             ItemId = 0;
-            Count = obj["count"].Value<int>();
-            ItemName = obj["name"].Value<string>();
-            ItemType = obj["item_type"].Value<string>();
-            Id = obj["id"].Value<string>();
-            LangCode = obj["lang"].Value<string>();
-            ItemRank = obj["rank_type"].Value<int>();
-
-            GachaTime = ExtractGachaTime(obj["time"].Value<string>());
+            Count = int.Parse(element.GetProperty(GachaData.Count).GetString());
+            ItemName = element.GetProperty(GachaData.Name).GetString();
+            ItemType = element.GetProperty(GachaData.ItemType).GetString();
+            Id = element.GetProperty(GachaData.Id).GetString();
+            LangCode = element.GetProperty(GachaData.Lang).GetString();
+            ItemRank = int.Parse(element.GetProperty(GachaData.RankType).GetString());
+            GachaTime = ExtractGachaTime(element.GetProperty(GachaData.Time).GetString());
         }
 
         private DateTime ExtractGachaTime(string timeStr)
