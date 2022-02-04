@@ -5,9 +5,14 @@ using System.Text.RegularExpressions;
 
 namespace GenshinInfo
 {
-    public static class Utils
+    internal static class Utils
     {
-        public static string AnalyzeServer(string uid)
+        /// <summary>
+        /// Get Genshin server identifier string by UID
+        /// </summary>
+        /// <param name="uid">User UID</param>
+        /// <returns>Server identifier</returns>
+        internal static string AnalyzeServer(string uid)
         {
             return string.IsNullOrWhiteSpace(uid) ? string.Empty : uid[0] switch
             {
@@ -21,7 +26,7 @@ namespace GenshinInfo
             };
         }
 
-        public static string GenerateDS()
+        internal static string GenerateDS()
         {
             const string R = "abcdef";
             const string DSSalt = "6cqshh5dhw73bzxn20oexa9k516chk7s";
@@ -40,7 +45,12 @@ namespace GenshinInfo
             return $"{epoch},{R},{sb}";
         }
 
-        public static string ExtractAuthkey(string url)
+        /// <summary>
+        /// Extract authkey string in URL
+        /// </summary>
+        /// <param name="url">URL with authkey param</param>
+        /// <returns>Authkey</returns>
+        internal static string ExtractAuthkey(string url)
         {
             string authKey = string.Empty;
 
@@ -57,7 +67,12 @@ namespace GenshinInfo
             return authKey;
         }
 
-        public static TimeSpan ConvertRemainTime(string remainTimeStr)
+        /// <summary>
+        /// Convert Genshin server remain time format to TimeSpan 
+        /// </summary>
+        /// <param name="remainTimeStr">Genshin server formated remain time</param>
+        /// <returns>TimeSpan of input time</returns>
+        internal static TimeSpan ConvertRemainTime(string remainTimeStr)
         {
             int remainTime = int.Parse(remainTimeStr);
 
@@ -69,7 +84,7 @@ namespace GenshinInfo
             return TimeSpan.FromSeconds(remainTime);
         }
 
-        public static bool CheckResponseValid(bool result, string responseStr)
+        internal static bool CheckResponseValid(bool result, string responseStr)
         {
             return result && !string.IsNullOrWhiteSpace(responseStr);
         }

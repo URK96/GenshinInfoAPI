@@ -1,5 +1,8 @@
 ﻿namespace GenshinInfo.Constants.Indexes
 {
+    /// <summary>
+    /// JSON indexes of HoYoLAB Game Record Card
+    /// </summary>
     public static class GameRecordCard
     {
         public const string BackgroundImage = "background_image";

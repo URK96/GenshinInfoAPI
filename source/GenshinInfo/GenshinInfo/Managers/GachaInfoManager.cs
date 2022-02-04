@@ -26,6 +26,13 @@ namespace GenshinInfo.Managers
             this.authKey = authKey;
         }
 
+        /// <summary>
+        /// Get gacha infos via miHoYo API
+        /// </summary>
+        /// <param name="gachaType">Gacha type what you want to get</param>
+        /// <param name="endId">Last item id in previous gacha infos. If you get first time, this param is "0"</param>
+        /// <param name="langShortCode">Result language option. Input short lang code. Default is "en"</param>
+        /// <returns></returns>
         public async Task<List<GachaDataInfo>> GetGachaInfos(GachaTypeNum gachaType, string endId = "0",
                                                              string langShortCode = "en")
         {

@@ -10,11 +10,21 @@ using System.Threading.Tasks;
 
 namespace GenshinInfo.Services
 {
+    /// <summary>
+    /// Test GenshinInfo API
+    /// </summary>
     public static class TestAPIService
     {
         const string APINotResponseMessage = "API did not return response";
         const string ResponseIsNullMessage = "Response is not valid";
 
+        /// <summary>
+        /// Test Real-Time Note API response
+        /// </summary>
+        /// <param name="uid">User UID</param>
+        /// <param name="ltuid">HoYoLAB user ltuid cookie info</param>
+        /// <param name="ltoken">HoYoLAB user ltoken cookie info</param>
+        /// <returns></returns>
         public static async Task<(bool, string)> TestRealTimeNoteAPI(string uid, string ltuid, string ltoken)
         {
             try
@@ -40,6 +50,12 @@ namespace GenshinInfo.Services
             }
         }
 
+        /// <summary>
+        /// Test Real-Time Note setting API response
+        /// </summary>
+        /// <param name="ltuid">HoYoLAB user ltuid cookie info</param>
+        /// <param name="ltoken">HoYoLAB user ltoken cookie info</param>
+        /// <returns></returns>
         public static async Task<(bool, string)> TestRealTimeNoteSettingAPI(string ltuid, string ltoken)
         {
             const string requestUrl = "https://bbs-api-os.mihoyo.com/game_record/card/wapi/changeDataSwitch";

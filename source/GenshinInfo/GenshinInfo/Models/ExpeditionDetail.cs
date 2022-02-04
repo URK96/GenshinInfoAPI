@@ -6,6 +6,9 @@ using System.Text.Json;
 
 namespace GenshinInfo.Models
 {
+    /// <summary>
+    /// Expedition detail info in Real-Time Note data
+    /// </summary>
     public class ExpeditionDetail
     {
         public string AvatarSideIconUrl { get; }

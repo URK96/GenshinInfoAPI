@@ -6,6 +6,9 @@ using System.Text.Json;
 
 namespace GenshinInfo.Models
 {
+    /// <summary>
+    /// Real-Time Note data
+    /// </summary>
     public class RTNoteData : BaseData
     {
         public int CurrentResin { get; }

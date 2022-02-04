@@ -3,6 +3,9 @@ using System.Text.Json;
 
 namespace GenshinInfo.Models
 {
+    /// <summary>
+    /// Collection of GachaDataInfo
+    /// </summary>
     public class GachaDataInfos : BaseData
     {
         public int Page { get; }
