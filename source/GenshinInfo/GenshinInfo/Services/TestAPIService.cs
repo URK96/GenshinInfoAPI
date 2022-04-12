@@ -31,8 +31,8 @@ namespace GenshinInfo.Services
                 {
                     return (false, ResponseIsNullMessage);
                 }
-                
-                return (true, JsonDocument.Parse(jsonStr).RootElement.GetProperty(Response.Message).GetString());
+
+                return (true, jsonStr);
             }
             catch (Exception ex)
             {
