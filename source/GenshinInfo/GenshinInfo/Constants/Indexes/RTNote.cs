@@ -1,5 +1,8 @@
 ﻿namespace GenshinInfo.Constants.Indexes
 {
+    /// <summary>
+    /// JSON indexes of HoYoLAB Real-Time Note
+    /// </summary>
     public static class RTNote
     {
         // Resin Note

@@ -13,6 +13,12 @@ namespace GenshinInfo.Services
 
         private static readonly Lazy<WebService> instance = new(() => { return new WebService(); });
 
+        /// <summary>
+        /// Send GET request
+        /// </summary>
+        /// <param name="client">HttpClient instance</param>
+        /// <param name="url">Request URL</param>
+        /// <returns>ValueTuple (bool : request result, string : response string)</returns>
         public async Task<(bool, string)> GetRequestAsync(HttpClient client, string url)
         {
             bool result;
@@ -32,6 +38,13 @@ namespace GenshinInfo.Services
             return (result, str);
         }
 
+        /// <summary>
+        /// Send POST request
+        /// </summary>
+        /// <param name="client">HttpClient instance</param>
+        /// <param name="url">Request URL</param>
+        /// <param name="content">POST content</param>
+        /// <returns>ValueTuple (bool : request result, string : response string)</returns>
         public async Task<(bool, string)> PostRequestAsync(HttpClient client, string url, StringContent content)
         {
             bool result;

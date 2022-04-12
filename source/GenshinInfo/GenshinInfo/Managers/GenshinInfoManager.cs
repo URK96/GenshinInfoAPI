@@ -20,21 +20,23 @@ namespace GenshinInfo.Managers
             this.ltoken = ltoken;
         }
 
+        /// <summary>
+        /// Check login with user's UID & cookie infos (ltuid, ltoken)
+        /// </summary>
+        /// <returns>Login result</returns>
         public async Task<bool> CheckLogin()
         {
             (bool result, string jsonStr) = await WebService.Instance.GetRequestUserAsync(uid, ltuid, ltoken);
             (ResponseData data, _) = ResponseData.CreateData(result, jsonStr, DataType.None);
 
-            //if (result &&
-            //    !string.IsNullOrWhiteSpace(jsonStr))
-            //{
-            //    data = new(JsonDocument.Parse(jsonStr).RootElement);
-            //}
-
             return (data is not null) &&
                 data.RetCode is 0;
         }
 
+        /// <summary>
+        /// Get Real-Time Note content
+        /// </summary>
+        /// <returns>Real-Time Note instance</returns>
         public async Task<RTNoteData> GetRealTimeNotes()
         {
             (bool result, string jsonStr) = 
@@ -43,65 +45,25 @@ namespace GenshinInfo.Managers
                 = ((ResponseData, RTNoteData))ResponseData.CreateData(result, jsonStr, DataType.RTNote);
 
             return rtNoteData;
-
-            //if (result &&
-            //    !string.IsNullOrWhiteSpace(jsonStr))
-            //{
-            //    JsonElement rootElement = JsonDocument.Parse(jsonStr).RootElement;
-
-            //    //responseData = new(rootElement);
-
-            //    if (responseData?.RetCode is 0)
-            //    {
-            //        rtNoteData = new(rootElement.GetProperty(Response.Data));
-            //    }
-            //}
-
-            //return rtNoteData;
-
-            //JObject dataObj = await WebService.Instance.GetRequestRealTimeNoteAsync(uid, ltuid, ltoken);
-
-            //Dictionary<string, string> dic = null;
-
-            //if (dataObj is not null)
-            //{
-            //    dic = new();
-
-            //    try
-            //    {
-            //        dic.Add(RTNote.CurrentResin, dataObj[RTNote.CurrentResin].Value<string>());
-            //        dic.Add(RTNote.MaxResin, dataObj[RTNote.MaxResin].Value<string>());
-            //        dic.Add(RTNote.ResinRecoveryTime, dataObj[RTNote.ResinRecoveryTime].Value<string>());
-
-            //        dic.Add(RTNote.FinishedTaskNum, dataObj[RTNote.FinishedTaskNum].Value<string>());
-            //        dic.Add(RTNote.TotalTaskNum, dataObj[RTNote.TotalTaskNum].Value<string>());
-            //        dic.Add(RTNote.IsExtraTaskRewardReceived, 
-            //                dataObj[RTNote.IsExtraTaskRewardReceived].Value<string>());
-
-            //        dic.Add(RTNote.RemainResinDiscountNum, 
-            //                dataObj[RTNote.RemainResinDiscountNum].Value<string>());
-            //        dic.Add(RTNote.ResinDiscountNumLimit, 
-            //                dataObj[RTNote.ResinDiscountNumLimit].Value<string>());
-
-            //        dic.Add(RTNote.CurrentRealmHomeCoin, dataObj[RTNote.CurrentRealmHomeCoin].Value<string>());
-            //        dic.Add(RTNote.MaxRealmHomeCoin, dataObj[RTNote.MaxRealmHomeCoin].Value<string>());
-            //        dic.Add(RTNote.RealmHomeCoinRecoveryTime, 
-            //                dataObj[RTNote.RealmHomeCoinRecoveryTime].Value<string>());
-            //    }
-            //    catch (Exception)
-            //    {
-            //        dic = null;
-            //    }
-            //}
-
-            //return dic;
         }
 
+        /// <summary>
+        /// Set Real-Time Note enable setting
+        /// </summary>
+        /// <param name="isEnable">Setting value</param>
+        /// <returns>Set request result</returns>
         public async Task<bool> SetRealTimeNoteSetting(bool isEnable)
         {
             return await SetRealTimeNoteSetting(isEnable, ltuid, ltoken);
         }
 
+        /// <summary>
+        /// Set Real-Time Note enable setting with user cookie info
+        /// </summary>
+        /// <param name="isEnable">Setting value</param>
+        /// <param name="ltuid">User cookie info (ltuid)</param>
+        /// <param name="ltoken">User cookie info (ltoken)</param>
+        /// <returns>Set request result</returns>
         public static async Task<bool> SetRealTimeNoteSetting(bool isEnable, string ltuid, string ltoken)
         {
             string switchValue = isEnable.ToString().ToLower();

@@ -9,6 +9,9 @@ using System.Xml.Linq;
 
 namespace GenshinInfo.Models
 {
+    /// <summary>
+    /// Basic response data of miHoYo server API
+    /// </summary>
     public class ResponseData : BaseData
     {
         public int RetCode { get; private set; }
@@ -16,6 +19,13 @@ namespace GenshinInfo.Models
 
         private ResponseData() { }
 
+        /// <summary>
+        /// Create response data with extra data
+        /// </summary>
+        /// <param name="responseResult">Response result of API request</param>
+        /// <param name="jsonStr">Response string (JSON)</param>
+        /// <param name="dataType">Extra data type</param>
+        /// <returns>Tuple type : (response data object, extra data object)</returns>
         public static (ResponseData, BaseData) CreateData(bool responseResult, string jsonStr, DataType dataType)
         {
             if (!responseResult ||

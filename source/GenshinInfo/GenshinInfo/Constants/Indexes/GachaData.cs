@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GenshinInfo.Constants.Indexes
+﻿namespace GenshinInfo.Constants.Indexes
 {
+    /// <summary>
+    /// JSON indexes of gacha response data
+    /// </summary>
     public static class GachaData
     {
         public const string Count = "count";

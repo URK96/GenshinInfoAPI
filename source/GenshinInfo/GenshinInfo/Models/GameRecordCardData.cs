@@ -5,6 +5,9 @@ using System.Text.Json;
 
 namespace GenshinInfo.Models
 {
+    /// <summary>
+    /// Game record card data of HoYoLAB
+    /// </summary>
     public class GameRecordCardData : BaseData
     {
         public string BackgroundImage { get; }

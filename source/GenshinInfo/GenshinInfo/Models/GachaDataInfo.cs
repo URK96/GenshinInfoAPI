@@ -5,6 +5,9 @@ using System.Text.Json;
 
 namespace GenshinInfo.Models
 {
+    /// <summary>
+    /// Response Data of Gacha Log
+    /// </summary>
     public class GachaDataInfo
     {
         public string Uid { get; set; }
