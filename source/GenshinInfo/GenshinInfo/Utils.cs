@@ -50,7 +50,7 @@ namespace GenshinInfo
         /// </summary>
         /// <param name="url">URL with authkey param</param>
         /// <returns>Authkey</returns>
-        internal static string ExtractAuthkey(string url)
+        public static string ExtractAuthkey(string url)
         {
             string authKey = string.Empty;
 
