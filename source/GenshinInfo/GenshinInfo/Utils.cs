@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace GenshinInfo
 {
-    internal static class Utils
+    public static class Utils
     {
         /// <summary>
         /// Get Genshin server identifier string by UID
