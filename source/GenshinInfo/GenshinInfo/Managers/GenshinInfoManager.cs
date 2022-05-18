@@ -30,7 +30,7 @@ namespace GenshinInfo.Managers
             (ResponseData data, _) = ResponseData.CreateData(result, jsonStr, DataType.None);
 
             return (data is not null) &&
-                data.RetCode is 0;
+                   (data.RetCode is 0);
         }
 
         /// <summary>
@@ -41,8 +41,8 @@ namespace GenshinInfo.Managers
         {
             (bool result, string jsonStr) = 
                 await WebService.Instance.GetRequestRealTimeNoteAsync(uid, ltuid, ltoken);
-            (_, var rtNoteData)
-                = ((ResponseData, RTNoteData))ResponseData.CreateData(result, jsonStr, DataType.RTNote);
+            (_, var rtNoteData) =
+                ((ResponseData, RTNoteData))ResponseData.CreateData(result, jsonStr, DataType.RTNote);
 
             return rtNoteData;
         }
@@ -74,6 +74,50 @@ namespace GenshinInfo.Managers
             (bool result, _) = await WebService.Instance.PostRequestGameRecordSettingAsync(ltuid, ltoken, content);
 
             return result;
+        }
+
+        /// <summary>
+        /// Get Daily Reward item list & info with user cookie info
+        /// </summary>
+        /// <param name="langCode">Data language code (ex. en-us)</param>
+        /// <returns>Daily Reward list data instance</returns>
+        public async Task<DailyRewardListData> GetDailyRewardList(string langCode = "en-us")
+        {
+            (bool result, string jsonStr) =
+                await WebService.Instance.GetRequestDailyRewardListDataAsync(ltuid, ltoken, langCode);
+            (_, var listData) = 
+                ((ResponseData, DailyRewardListData))ResponseData.CreateData(result, jsonStr, DataType.DailyRewardList);
+
+            return listData;
+        }
+
+        /// <summary>
+        /// Get Daily Reward status info with user cookie info
+        /// </summary>
+        /// <param name="langCode">Data language code (ex. en-us)</param>
+        /// <returns>Daily Reward status data instance</returns>
+        public async Task<DailyRewardStatusData> GetDailyRewardStatus(string langCode = "en-us")
+        {
+            (bool result, string jsonStr) = 
+                await WebService.Instance.GetRequestDailyRewardStatusDataAsync(ltuid, ltoken, langCode);
+            (_, var statusData) = 
+                ((ResponseData, DailyRewardStatusData))ResponseData.CreateData(result, jsonStr, DataType.DailyRewardStatus);
+
+            return statusData;
+        }
+
+        /// <summary>
+        /// Sign in Daily Reward with user cookie info
+        /// </summary>
+        /// <returns>Request & Sign-In result</returns>
+        public async Task<bool> SignInDailyReward()
+        {
+            (bool result, string jsonStr) = 
+                await WebService.Instance.PostRequestDailyRewardSignInAsync(ltuid, ltoken, "en-us");
+            (var responseData, _) = ResponseData.CreateData(result, jsonStr, DataType.None);
+
+            return result && 
+                   (responseData.RetCode is -5003 or 0);
         }
     }
 }

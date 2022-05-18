@@ -5,6 +5,7 @@ using GenshinInfo.Models;
 
 using System;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -149,6 +150,31 @@ namespace GenshinInfo.Services
             string requestUrl = $"{Urls.GachaInfoUrl}getConfigList{queryStr}";
 
             return await WebService.Instance.GetRequestAsync(client, requestUrl);
+        }
+
+        public static async Task<(bool, string)> TestDailyRewardAPI(string ltuid, string ltoken)
+        {
+            try
+            {
+                (bool result, string jsonStr) =
+                    await WebService.Instance.GetRequestDailyRewardListDataAsync(ltuid, ltoken, "en-us");
+
+                if (!result)
+                {
+                    return (false, APINotResponseMessage);
+                }
+
+                if (string.IsNullOrWhiteSpace(jsonStr))
+                {
+                    return (false, ResponseIsNullMessage);
+                }
+
+                return (true, jsonStr);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
         }
     }
 }

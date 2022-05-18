@@ -1,11 +1,7 @@
 ﻿using GenshinInfo.Constants.Indexes;
 using GenshinInfo.Enums;
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
-using System.Xml.Linq;
 
 namespace GenshinInfo.Models
 {
@@ -60,6 +56,8 @@ namespace GenshinInfo.Models
                     DataType.RTNote => new RTNoteData(dataElement),
                     DataType.GameRecordCard => CreateGenshinRecordCardData(dataElement),
                     DataType.GachaData => new GachaDataInfos(dataElement),
+                    DataType.DailyRewardList => new DailyRewardListData(dataElement),
+                    DataType.DailyRewardStatus => new DailyRewardStatusData(dataElement),
                     _ => default
                 };
             }

@@ -1,4 +1,5 @@
 ﻿using GenshinInfo.Constants;
+using GenshinInfo.Constants.Indexes;
 
 using System;
 using System.Net.Http;
@@ -130,6 +131,58 @@ namespace GenshinInfo.Services
             querySb.Append($"&authkey={authKey}");
 
             return await GetRequestGachaInfoAsync(client, "getGachaLog", querySb.ToString());
+        }
+
+        internal async Task<(bool, string)> GetRequestEventDataAsync(HttpClient client, string endPoint, string queryStr)
+        {
+            return await GetRequestAsync(client, $"{Urls.EventUrl}{endPoint}{queryStr}");
+        }
+
+        internal async Task<(bool, string)> PostRequestEventDataAsync(HttpClient client, string endPoint, string queryStr, StringContent content)
+        {
+            return await PostRequestAsync(client, $"{Urls.EventUrl}{endPoint}{queryStr}", content);
+        }
+
+        internal async Task<(bool, string)> GetRequestDailyRewardListDataAsync(string ltuid, string ltoken, string langCode)
+        {
+            using HttpClient client = new();
+
+            AddDefaultHeaders(client, ltuid, ltoken);
+
+            StringBuilder querySb = new();
+
+            querySb.Append($"?lang={langCode}");
+            querySb.Append($"&act_id={DailyReward.EventId}");
+
+            return await GetRequestEventDataAsync(client, "home", querySb.ToString());
+        }
+
+        internal async Task<(bool, string)> GetRequestDailyRewardStatusDataAsync(string ltuid, string ltoken, string langCode)
+        {
+            using HttpClient client = new();
+
+            AddDefaultHeaders(client, ltuid, ltoken);
+
+            StringBuilder querySb = new();
+
+            querySb.Append($"?lang={langCode}");
+            querySb.Append($"&act_id={DailyReward.EventId}");
+
+            return await GetRequestEventDataAsync(client, "info", querySb.ToString());
+        }
+
+        internal async Task<(bool, string)> PostRequestDailyRewardSignInAsync(string ltuid, string ltoken, string langCode)
+        {
+            using HttpClient client = new();
+
+            AddDefaultHeaders(client, ltuid, ltoken);
+
+            StringBuilder querySb = new();
+
+            querySb.Append($"?lang={langCode}");
+            querySb.Append($"&act_id={DailyReward.EventId}");
+
+            return await PostRequestEventDataAsync(client, "sign", querySb.ToString(), new StringContent(string.Empty));
         }
 
         public void AddDefaultHeaders(HttpClient client, string ltuid, string ltoken)

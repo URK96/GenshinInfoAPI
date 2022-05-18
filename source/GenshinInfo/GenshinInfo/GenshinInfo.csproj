@@ -7,7 +7,7 @@
 	  <IsPublishable>True</IsPublishable>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 	  <PackageId>GenshinInfo</PackageId>
-	  <Version>1.0.3.1</Version>
+	  <Version>1.0.4</Version>
 	  <Authors>URK96</Authors>
 	  <Company>URK96</Company>
 	  <Product>GenshinInfo</Product>
@@ -24,7 +24,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.Text.Json" Version="6.0.1" />
+    <PackageReference Include="System.Text.Json" Version="6.0.4" />
   </ItemGroup>
 
 </Project>
