@@ -51,6 +51,7 @@ namespace GenshinInfo.Models
                 "Qin" => "Jean",
                 "Tohma" => "Thoma",
                 "Yunjin" => "Yun Jin",
+                "Shinobu" => "Kuki Shinobu",
                 //라이덴쇼군
                 _ => tempName
             };
