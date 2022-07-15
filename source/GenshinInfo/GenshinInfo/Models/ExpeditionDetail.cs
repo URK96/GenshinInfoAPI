@@ -52,6 +52,7 @@ namespace GenshinInfo.Models
                 "Tohma" => "Thoma",
                 "Yunjin" => "Yun Jin",
                 "Shinobu" => "Kuki Shinobu",
+                "Heizo" => "Shikanoin Heizou",
                 //라이덴쇼군
                 _ => tempName
             };
