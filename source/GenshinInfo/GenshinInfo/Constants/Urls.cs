@@ -14,5 +14,7 @@
         public const string YsulogUrl = "https://hk4e-api-os.mihoyo.com/ysulog/api/";
         public const string MapUrl = "https://api-os-takumi-static.mihoyo.com/common/map_user/ys_obc/v1/map/";
         public const string StaticMapUrl = "https://api-os-takumi-static.mihoyo.com/common/map_user/ys_obc/v1/map";
+
+        public const string HonkaiEventUrl = "https://sg-public-api.hoyolab.com/event/mani/";
     }
 }

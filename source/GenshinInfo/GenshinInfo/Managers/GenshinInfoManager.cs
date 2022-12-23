@@ -119,5 +119,53 @@ namespace GenshinInfo.Managers
             return result && 
                    (responseData.RetCode is -5003 or 0);
         }
+
+        #region HonkaiAPI
+
+        /// <summary>
+        /// Get Honkai Impact Daily Reward item list & info with user cookie info
+        /// </summary>
+        /// <param name="langCode">Data language code (ex. en-us)</param>
+        /// <returns>Daily Reward list data instance</returns>
+        public async Task<DailyRewardListData> GetHonkaiDailyRewardList(string langCode = "en-us")
+        {
+            (bool result, string jsonStr) =
+                await WebService.Instance.GetRequestDailyRewardListDataAsync(ltuid, ltoken, langCode);
+            (_, var listData) =
+                ((ResponseData, DailyRewardListData))ResponseData.CreateData(result, jsonStr, DataType.DailyRewardList);
+
+            return listData;
+        }
+
+        /// <summary>
+        /// Get Honkai Impact Daily Reward status info with user cookie info
+        /// </summary>
+        /// <param name="langCode">Data language code (ex. en-us)</param>
+        /// <returns>Daily Reward status data instance</returns>
+        public async Task<DailyRewardStatusData> GetHonkaiDailyRewardStatus(string langCode = "en-us")
+        {
+            (bool result, string jsonStr) =
+                await WebService.Instance.GetRequestHonkaiDailyRewardStatusDataAsync(ltuid, ltoken, langCode);
+            (_, var statusData) =
+                ((ResponseData, DailyRewardStatusData))ResponseData.CreateData(result, jsonStr, DataType.DailyRewardStatus);
+
+            return statusData;
+        }
+
+        /// <summary>
+        /// Sign in Honkai Impact Daily Reward with user cookie info
+        /// </summary>
+        /// <returns>Request & Sign-In result</returns>
+        public async Task<bool> SignInHonkaiDailyReward()
+        {
+            (bool result, string jsonStr) =
+                await WebService.Instance.PostRequestHonkaiDailyRewardSignInAsync(ltuid, ltoken, "en-us");
+            (var responseData, _) = ResponseData.CreateData(result, jsonStr, DataType.None);
+
+            return result &&
+                   (responseData.RetCode is -5003 or 0);
+        }
+
+        #endregion HonkaiAPI
     }
 }
