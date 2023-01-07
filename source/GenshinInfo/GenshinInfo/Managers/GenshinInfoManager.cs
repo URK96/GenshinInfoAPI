@@ -130,7 +130,7 @@ namespace GenshinInfo.Managers
         public async Task<DailyRewardListData> GetHonkaiDailyRewardList(string langCode = "en-us")
         {
             (bool result, string jsonStr) =
-                await WebService.Instance.GetRequestDailyRewardListDataAsync(ltuid, ltoken, langCode);
+                await WebService.Instance.GetRequestHonkaiDailyRewardListDataAsync(ltuid, ltoken, langCode);
             (_, var listData) =
                 ((ResponseData, DailyRewardListData))ResponseData.CreateData(result, jsonStr, DataType.DailyRewardList);
 

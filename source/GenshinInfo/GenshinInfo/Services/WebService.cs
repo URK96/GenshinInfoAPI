@@ -208,7 +208,7 @@ namespace GenshinInfo.Services
             querySb.Append($"?lang={langCode}");
             querySb.Append($"&act_id={DailyRewardHonkai.EventId}");
 
-            return await GetRequestEventDataAsync(client, "home", querySb.ToString());
+            return await GetRequestHonkaiEventDataAsync(client, "home", querySb.ToString());
         }
 
         internal async Task<(bool, string)> GetRequestHonkaiDailyRewardStatusDataAsync(string ltuid, string ltoken, string langCode)
