@@ -16,5 +16,6 @@
         public const string StaticMapUrl = "https://api-os-takumi-static.mihoyo.com/common/map_user/ys_obc/v1/map";
 
         public const string HonkaiEventUrl = "https://sg-public-api.hoyolab.com/event/mani/";
+        public const string HonkaiStarRailEventUrl = "https://sg-public-api.hoyolab.com/event/luna/os";
     }
 }

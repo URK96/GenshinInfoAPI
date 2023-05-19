@@ -241,6 +241,62 @@ namespace GenshinInfo.Services
 
         #endregion
 
+        #region HonkaiStarRailAPI
+
+        internal async Task<(bool, string)> GetRequestHonkaiStarRailEventDataAsync(HttpClient client, string endPoint, string queryStr)
+        {
+            return await GetRequestAsync(client, $"{Urls.HonkaiEventUrl}{endPoint}{queryStr}");
+        }
+
+        internal async Task<(bool, string)> PostRequestHonkaiStarRailEventDataAsync(HttpClient client, string endPoint, string queryStr, StringContent content)
+        {
+            return await PostRequestAsync(client, $"{Urls.HonkaiEventUrl}{endPoint}{queryStr}", content);
+        }
+
+        internal async Task<(bool, string)> GetRequestHonkaiStarRailDailyRewardListDataAsync(string ltuid, string ltoken, string langCode)
+        {
+            using HttpClient client = new();
+
+            AddDefaultHeaders(client, ltuid, ltoken);
+
+            StringBuilder querySb = new();
+
+            querySb.Append($"?lang={langCode}");
+            querySb.Append($"&act_id={DailyRewardHonkai.EventId}");
+
+            return await GetRequestHonkaiStarRailEventDataAsync(client, "home", querySb.ToString());
+        }
+
+        internal async Task<(bool, string)> GetRequestHonkaiStarRailDailyRewardStatusDataAsync(string ltuid, string ltoken, string langCode)
+        {
+            using HttpClient client = new();
+
+            AddDefaultHeaders(client, ltuid, ltoken);
+
+            StringBuilder querySb = new();
+
+            querySb.Append($"?lang={langCode}");
+            querySb.Append($"&act_id={DailyRewardHonkai.EventId}");
+
+            return await GetRequestHonkaiStarRailEventDataAsync(client, "info", querySb.ToString());
+        }
+
+        internal async Task<(bool, string)> PostRequestHonkaiStarRailDailyRewardSignInAsync(string ltuid, string ltoken, string langCode)
+        {
+            using HttpClient client = new();
+
+            AddDefaultHeaders(client, ltuid, ltoken);
+
+            StringBuilder querySb = new();
+
+            querySb.Append($"?lang={langCode}");
+            querySb.Append($"&act_id={DailyRewardHonkai.EventId}");
+
+            return await PostRequestHonkaiStarRailEventDataAsync(client, "sign", querySb.ToString(), new StringContent(string.Empty));
+        }
+
+        #endregion
+
         public void AddDefaultHeaders(HttpClient client, string ltuid, string ltoken)
         {
             client.DefaultRequestHeaders.Add("Cookie", $"ltoken={ltoken}; ltuid={ltuid}");
