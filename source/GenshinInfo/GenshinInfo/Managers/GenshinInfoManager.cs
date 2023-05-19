@@ -178,7 +178,7 @@ namespace GenshinInfo.Managers
         public async Task<DailyRewardListData> GetHonkaiStarRailDailyRewardList(string langCode = "en-us")
         {
             (bool result, string jsonStr) =
-                await WebService.Instance.GetRequestHonkaiDailyRewardListDataAsync(ltuid, ltoken, langCode);
+                await WebService.Instance.GetRequestHonkaiStarRailDailyRewardListDataAsync(ltuid, ltoken, langCode);
             (_, var listData) =
                 ((ResponseData, DailyRewardListData))ResponseData.CreateData(result, jsonStr, DataType.DailyRewardList);
 
@@ -193,7 +193,7 @@ namespace GenshinInfo.Managers
         public async Task<DailyRewardStatusData> GetHonkaiStarRailDailyRewardStatus(string langCode = "en-us")
         {
             (bool result, string jsonStr) =
-                await WebService.Instance.GetRequestHonkaiDailyRewardStatusDataAsync(ltuid, ltoken, langCode);
+                await WebService.Instance.GetRequestHonkaiStarRailDailyRewardStatusDataAsync(ltuid, ltoken, langCode);
             (_, var statusData) =
                 ((ResponseData, DailyRewardStatusData))ResponseData.CreateData(result, jsonStr, DataType.DailyRewardStatus);
 
@@ -207,7 +207,7 @@ namespace GenshinInfo.Managers
         public async Task<bool> SignInHonkaiStarRailDailyReward()
         {
             (bool result, string jsonStr) =
-                await WebService.Instance.PostRequestHonkaiDailyRewardSignInAsync(ltuid, ltoken, "en-us");
+                await WebService.Instance.PostRequestHonkaiStarRailDailyRewardSignInAsync(ltuid, ltoken, "en-us");
             (var responseData, _) = ResponseData.CreateData(result, jsonStr, DataType.None);
 
             return result &&

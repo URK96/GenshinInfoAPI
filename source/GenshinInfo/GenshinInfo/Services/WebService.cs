@@ -245,12 +245,12 @@ namespace GenshinInfo.Services
 
         internal async Task<(bool, string)> GetRequestHonkaiStarRailEventDataAsync(HttpClient client, string endPoint, string queryStr)
         {
-            return await GetRequestAsync(client, $"{Urls.HonkaiEventUrl}{endPoint}{queryStr}");
+            return await GetRequestAsync(client, $"{Urls.HonkaiStarRailEventUrl}{endPoint}{queryStr}");
         }
 
         internal async Task<(bool, string)> PostRequestHonkaiStarRailEventDataAsync(HttpClient client, string endPoint, string queryStr, StringContent content)
         {
-            return await PostRequestAsync(client, $"{Urls.HonkaiEventUrl}{endPoint}{queryStr}", content);
+            return await PostRequestAsync(client, $"{Urls.HonkaiStarRailEventUrl}{endPoint}{queryStr}", content);
         }
 
         internal async Task<(bool, string)> GetRequestHonkaiStarRailDailyRewardListDataAsync(string ltuid, string ltoken, string langCode)
@@ -262,7 +262,7 @@ namespace GenshinInfo.Services
             StringBuilder querySb = new();
 
             querySb.Append($"?lang={langCode}");
-            querySb.Append($"&act_id={DailyRewardHonkai.EventId}");
+            querySb.Append($"&act_id={DailyRewardHonkaiStarRail.EventId}");
 
             return await GetRequestHonkaiStarRailEventDataAsync(client, "home", querySb.ToString());
         }
@@ -276,7 +276,7 @@ namespace GenshinInfo.Services
             StringBuilder querySb = new();
 
             querySb.Append($"?lang={langCode}");
-            querySb.Append($"&act_id={DailyRewardHonkai.EventId}");
+            querySb.Append($"&act_id={DailyRewardHonkaiStarRail.EventId}");
 
             return await GetRequestHonkaiStarRailEventDataAsync(client, "info", querySb.ToString());
         }
@@ -290,7 +290,7 @@ namespace GenshinInfo.Services
             StringBuilder querySb = new();
 
             querySb.Append($"?lang={langCode}");
-            querySb.Append($"&act_id={DailyRewardHonkai.EventId}");
+            querySb.Append($"&act_id={DailyRewardHonkaiStarRail.EventId}");
 
             return await PostRequestHonkaiStarRailEventDataAsync(client, "sign", querySb.ToString(), new StringContent(string.Empty));
         }

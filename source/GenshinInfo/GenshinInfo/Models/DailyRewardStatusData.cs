@@ -22,7 +22,16 @@ namespace GenshinInfo.Models
 
             TodayDate = new DateTime(int.Parse(todaySplits[0]), int.Parse(todaySplits[1]), int.Parse(todaySplits[2]));
             IsSign = element.GetProperty(DailyReward.IsSign).GetBoolean();
-            IsFirstBind = element.GetProperty(DailyReward.FirstBind).GetBoolean();
+
+            try
+            {
+                IsFirstBind = element.GetProperty(DailyReward.FirstBind).GetBoolean();
+            }
+            catch
+            {
+                IsFirstBind = false;
+            }
+
             IsSub = element.GetProperty(DailyReward.IsSub).GetBoolean();
             Region = element.GetProperty(DailyReward.Region).GetString();
         }
