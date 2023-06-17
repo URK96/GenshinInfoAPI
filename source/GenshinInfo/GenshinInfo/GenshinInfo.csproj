@@ -7,7 +7,7 @@
 	  <IsPublishable>True</IsPublishable>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 	  <PackageId>GenshinInfo</PackageId>
-	  <Version>1.2.1</Version>
+	  <Version>1.2.2</Version>
 	  <Authors>URK96</Authors>
 	  <Company>URK96</Company>
 	  <Product>GenshinInfo</Product>
@@ -16,7 +16,7 @@
 	  <PackageProjectUrl>https://github.com/URK96/GenshinInfoAPI</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/URK96/GenshinInfoAPI</RepositoryUrl>
 	  <PackageTags>Genshin;API;Info</PackageTags>
-	  <PackageReleaseNotes>Add Honkai Star Rail daily reward API &amp; functions</PackageReleaseNotes>
+	  <PackageReleaseNotes>Change Genshin event API base url</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
