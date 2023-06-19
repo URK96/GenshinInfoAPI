@@ -7,6 +7,7 @@
         GameRecordCard = 1,
         GachaData = 2,
         DailyRewardList = 3,
-        DailyRewardStatus = 4
+        DailyRewardStatus = 4,
+        DailyRewardSingInResult = 5,
     }
 }

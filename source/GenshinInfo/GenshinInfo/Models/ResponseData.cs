@@ -58,6 +58,8 @@ namespace GenshinInfo.Models
                     DataType.GachaData => new GachaDataInfos(dataElement),
                     DataType.DailyRewardList => new DailyRewardListData(dataElement),
                     DataType.DailyRewardStatus => new DailyRewardStatusData(dataElement),
+                    DataType.DailyRewardSingInResult => DailyRewardSignInResultData.CreateData(dataElement),
+
                     _ => default
                 };
             }

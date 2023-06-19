@@ -114,7 +114,17 @@ namespace GenshinInfo.Managers
         {
             (bool result, string jsonStr) = 
                 await WebService.Instance.PostRequestDailyRewardSignInAsync(ltuid, ltoken, "en-us");
-            (var responseData, _) = ResponseData.CreateData(result, jsonStr, DataType.None);
+            (var responseData, var resultData) =
+                ((ResponseData, DailyRewardSignInResultData))ResponseData.CreateData(result, jsonStr, DataType.DailyRewardSingInResult);
+
+            if (resultData?.GtResult?.ChallengeData is not null)
+            {
+                (result, jsonStr) =
+                    await WebService.Instance.PostRequestDailyRewardSignInAgainAsync(ltuid, ltoken, "en-us", resultData.GtResult.ChallengeData);
+
+                (responseData, resultData) =
+                    ((ResponseData, DailyRewardSignInResultData))ResponseData.CreateData(result, jsonStr, DataType.DailyRewardSingInResult);
+            }
 
             return result && 
                    (responseData.RetCode is -5003 or 0);
