@@ -185,6 +185,22 @@ namespace GenshinInfo.Services
             return await PostRequestEventDataAsync(client, "sign", querySb.ToString(), new StringContent(string.Empty));
         }
 
+        internal async Task<(bool, string)> PostRequestDailyRewardSignInAgainAsync(string ltuid, string ltoken, string langCode, string challengeData)
+        {
+            using HttpClient client = new();
+
+            AddDefaultHeaders(client, ltuid, ltoken);
+
+            client.DefaultRequestHeaders.Add("X-rpc-challenge", challengeData);
+
+            StringBuilder querySb = new();
+
+            querySb.Append($"?lang={langCode}");
+            querySb.Append($"&act_id={DailyReward.EventId}");
+
+            return await PostRequestEventDataAsync(client, "sign", querySb.ToString(), new StringContent(string.Empty));
+        }
+
         #region HonkaiAPI
 
         internal async Task<(bool, string)> GetRequestHonkaiEventDataAsync(HttpClient client, string endPoint, string queryStr)
@@ -299,9 +315,10 @@ namespace GenshinInfo.Services
 
         public void AddDefaultHeaders(HttpClient client, string ltuid, string ltoken)
         {
-            client.DefaultRequestHeaders.Add("Cookie", $"ltoken={ltoken}; ltuid={ltuid}");
+            client.DefaultRequestHeaders.Add("Cookie", $"ltoken={ltoken}; ltuid={ltuid}; _MHYUUID=4507799b-1b74-495c-8fd1-4e9a1eb76c79");
             client.DefaultRequestHeaders.Add("x-rpc-app_version", "1.5.0");
             client.DefaultRequestHeaders.Add("x-rpc-client_type", "4");
+            //client.DefaultRequestHeaders.Add("x-rpc-challenge", "be029cd46d833ef88bc4ac74942329f0");
             client.DefaultRequestHeaders.Add("DS", Utils.GenerateDS());
         }
     }
