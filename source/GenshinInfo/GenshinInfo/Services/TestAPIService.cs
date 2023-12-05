@@ -152,12 +152,62 @@ namespace GenshinInfo.Services
             return await WebService.Instance.GetRequestAsync(client, requestUrl);
         }
 
-        public static async Task<(bool, string)> TestDailyRewardAPI(string ltuid, string ltoken)
+        public static async Task<(bool, string)> TestDailyRewardListDataAPI(string ltuid, string ltoken)
         {
             try
             {
                 (bool result, string jsonStr) =
                     await WebService.Instance.GetRequestDailyRewardListDataAsync(ltuid, ltoken, "en-us");
+
+                if (!result)
+                {
+                    return (false, APINotResponseMessage);
+                }
+
+                if (string.IsNullOrWhiteSpace(jsonStr))
+                {
+                    return (false, ResponseIsNullMessage);
+                }
+
+                return (true, jsonStr);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+        }
+
+        public static async Task<(bool, string)> TestDailyRewardStatusAPI(string ltuid, string ltoken)
+        {
+            try
+            {
+                (bool result, string jsonStr) =
+                    await WebService.Instance.GetRequestDailyRewardStatusDataAsync(ltuid, ltoken, "en-us");
+
+                if (!result)
+                {
+                    return (false, APINotResponseMessage);
+                }
+
+                if (string.IsNullOrWhiteSpace(jsonStr))
+                {
+                    return (false, ResponseIsNullMessage);
+                }
+
+                return (true, jsonStr);
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+        }
+
+        public static async Task<(bool, string)> TestDailyRewardSignInAPI(string ltuid, string ltoken)
+        {
+            try
+            {
+                (bool result, string jsonStr) =
+                    await WebService.Instance.PostRequestDailyRewardSignInAsync(ltuid, ltoken, "en-us");
 
                 if (!result)
                 {
