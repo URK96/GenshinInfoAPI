@@ -9,9 +9,21 @@ namespace GenshinInfo.Managers
 {
     public class GenshinInfoManager
     {
+        private bool _useV2Cookie = false;
         private readonly string uid;
         private readonly string ltuid;
         private readonly string ltoken;
+
+        public bool UseV2Cookie
+        {
+            get => _useV2Cookie;
+            set
+            {
+                _useV2Cookie = value;
+
+                WebService.Instance.UseV2Info = _useV2Cookie;
+            }
+        }
 
         public GenshinInfoManager(string uid, string ltuid, string ltoken)
         {

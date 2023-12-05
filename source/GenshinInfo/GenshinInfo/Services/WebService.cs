@@ -14,6 +14,8 @@ namespace GenshinInfo.Services
 
         private static readonly Lazy<WebService> instance = new(() => { return new WebService(); });
 
+        public bool UseV2Info { get; set; } = false;
+
         /// <summary>
         /// Send GET request
         /// </summary>
@@ -315,7 +317,15 @@ namespace GenshinInfo.Services
 
         public void AddDefaultHeaders(HttpClient client, string ltuid, string ltoken)
         {
-            client.DefaultRequestHeaders.Add("Cookie", $"ltoken={ltoken}; ltuid={ltuid}; _MHYUUID=4507799b-1b74-495c-8fd1-4e9a1eb76c79");
+            if (UseV2Info)
+            {
+                client.DefaultRequestHeaders.Add("Cookie", $"ltoken_v2={ltoken}; ltuid_v2={ltuid}");
+            }
+            else
+            {
+                client.DefaultRequestHeaders.Add("Cookie", $"ltoken={ltoken}; ltuid={ltuid}");
+            }
+            
             client.DefaultRequestHeaders.Add("x-rpc-app_version", "1.5.0");
             client.DefaultRequestHeaders.Add("x-rpc-client_type", "4");
             //client.DefaultRequestHeaders.Add("x-rpc-challenge", "be029cd46d833ef88bc4ac74942329f0");
