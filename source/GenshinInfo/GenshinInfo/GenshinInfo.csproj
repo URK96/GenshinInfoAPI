@@ -7,7 +7,7 @@
 	  <IsPublishable>True</IsPublishable>
 	  <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 	  <PackageId>GenshinInfo</PackageId>
-	  <Version>1.2.3</Version>
+	  <Version>1.3.0</Version>
 	  <Authors>URK96</Authors>
 	  <Company>URK96</Company>
 	  <Product>GenshinInfo</Product>
@@ -16,7 +16,8 @@
 	  <PackageProjectUrl>https://github.com/URK96/GenshinInfoAPI</PackageProjectUrl>
 	  <RepositoryUrl>https://github.com/URK96/GenshinInfoAPI</RepositoryUrl>
 	  <PackageTags>Genshin;API;Info</PackageTags>
-	  <PackageReleaseNotes>Change Genshin Daily Reward Sign In feature implement</PackageReleaseNotes>
+	  <PackageReleaseNotes>- Add new test API
+- Add switch feature to apply miHoYo v2 cookie info selection</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
