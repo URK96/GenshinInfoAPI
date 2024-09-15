@@ -390,5 +390,10 @@ namespace GenshinInfo.Services
             //client.DefaultRequestHeaders.Add("x-rpc-challenge", "be029cd46d833ef88bc4ac74942329f0");
             client.DefaultRequestHeaders.Add("DS", Utils.GenerateDS());
         }
+
+        public void AddZenlessZoneZeroHeaders(HttpClient client)
+        {
+            client.DefaultRequestHeaders.Add("x-rpc-signgame", "zzz");
+        }
     }
 }
