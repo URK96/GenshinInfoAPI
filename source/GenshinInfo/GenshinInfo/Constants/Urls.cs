@@ -17,5 +17,6 @@
 
         public const string HonkaiEventUrl = "https://sg-public-api.hoyolab.com/event/mani/";
         public const string HonkaiStarRailEventUrl = "https://sg-public-api.hoyolab.com/event/luna/os/";
+        public const string ZenlessZoneZeroEventUrl = "https://sg-public-api.hoyolab.com/event/luna/zzz/os/";
     }
 }

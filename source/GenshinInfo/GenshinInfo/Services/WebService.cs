@@ -315,6 +315,65 @@ namespace GenshinInfo.Services
 
         #endregion
 
+        #region ZenlessZoneZeroAPI
+
+        internal async Task<(bool, string)> GetRequestZenlessZoneZeroEventDataAsync(HttpClient client, string endPoint, string queryStr)
+        {
+            return await GetRequestAsync(client, $"{Urls.ZenlessZoneZeroEventUrl}{endPoint}{queryStr}");
+        }
+
+        internal async Task<(bool, string)> PostRequestZenlessZoneZeroEventDataAsync(HttpClient client, string endPoint, string queryStr, StringContent content)
+        {
+            return await PostRequestAsync(client, $"{Urls.ZenlessZoneZeroEventUrl}{endPoint}{queryStr}", content);
+        }
+
+        internal async Task<(bool, string)> GetRequestZenlessZoneZeroDailyRewardListDataAsync(string ltuid, string ltoken, string langCode)
+        {
+            using HttpClient client = new();
+
+            AddDefaultHeaders(client, ltuid, ltoken);
+            AddZenlessZoneZeroHeaders(client);
+
+            StringBuilder querySb = new();
+
+            querySb.Append($"?lang={langCode}");
+            querySb.Append($"&act_id={DailyRewardZenlessZoneZero.EventId}");
+
+            return await GetRequestZenlessZoneZeroEventDataAsync(client, "home", querySb.ToString());
+        }
+
+        internal async Task<(bool, string)> GetRequestZenlessZoneZeroDailyRewardStatusDataAsync(string ltuid, string ltoken, string langCode)
+        {
+            using HttpClient client = new();
+
+            AddDefaultHeaders(client, ltuid, ltoken);
+            AddZenlessZoneZeroHeaders(client);
+
+            StringBuilder querySb = new();
+
+            querySb.Append($"?lang={langCode}");
+            querySb.Append($"&act_id={DailyRewardZenlessZoneZero.EventId}");
+
+            return await GetRequestZenlessZoneZeroEventDataAsync(client, "info", querySb.ToString());
+        }
+
+        internal async Task<(bool, string)> PostRequestZenlessZoneZeroDailyRewardSignInAsync(string ltuid, string ltoken, string langCode)
+        {
+            using HttpClient client = new();
+
+            AddDefaultHeaders(client, ltuid, ltoken);
+            AddZenlessZoneZeroHeaders(client);
+
+            StringBuilder querySb = new();
+
+            querySb.Append($"?lang={langCode}");
+            querySb.Append($"&act_id={DailyRewardZenlessZoneZero.EventId}");
+
+            return await PostRequestZenlessZoneZeroEventDataAsync(client, "sign", querySb.ToString(), new StringContent(string.Empty));
+        }
+
+        #endregion
+
         public void AddDefaultHeaders(HttpClient client, string ltuid, string ltoken)
         {
             if (UseV2Info)
